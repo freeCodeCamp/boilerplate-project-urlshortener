@@ -37,16 +37,8 @@ var Schema = mongoose.Schema;
 var urlSchema = new Schema({
   short_url: Number,
   original_url: String
-}, { collection: 'short_url' });
+}, { collection: 'short_urls' });
 var URL = mongoose.model('RUL', urlSchema);
-
-var findLastURL = (done) => {  
-  URL.findOne().sort('-short_url').exec(function (err, data) {
-    if (err) return done(err);
-
-    done(null, data);
-  });
-};
 
 // API Settings
 app.post('/api/shorturl/new', (req, res, next) => {
