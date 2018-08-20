@@ -19,14 +19,14 @@ var port = process.env.PORT || 3000;
 mongoose.connect(process.env.MONGO_URI)
 
 var SequenceSchema = new mongoose.Schema({
-  name: {type: String, required: true},
-  id: {type: Number, required: true}
+  name: {type: String, required: true, unique: true},
+  id: {type: Number, required: true, unique: true}
 });
 var SequenceModel = mongoose.model('sequence', SequenceSchema);
 
 var urlPairSchema = new mongoose.Schema({
-  id: {type: Number, required: true},
-  href: {type: String, required: true}
+  id: {type: Number, required: true, unique: true},
+  href: {type: String, required: true, unique: true}
 });  
 var urlPairModel = mongoose.model('urlPair', urlPairSchema);
 
