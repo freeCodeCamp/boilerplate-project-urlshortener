@@ -86,6 +86,17 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.get("/api/:shorturl/", function (req, res) {
+  console.log("shorturl is " + req.params.shorturl)
+  URL.find({ shortUrl: req.params.shorturl }, 'originalUrl shortUrl', function (err, docs) {
+    if (!err) {
+      console.log(docs);
+    } else {
+      res.send('There is no url for ' + req.params.shorturl)
+    }
+  })
+})
+
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res, next) {
   //req.route.path
@@ -111,6 +122,13 @@ app.post("/api/shorturl/new", function (req, res, next) {
    
       console.log("shortUrlId: " + typeof shortUrlId)
       console.log("originalUrl: " + typeof Url)
+
+      //Search database and find if url is already in system and if so return the results
+      URL.find({ originialUrl: Url }, 'originalUrl shortUrl', function (err, person) {
+        if (!err) {
+          res.send('Theres is already an urlshortener for ' + Url + ' and can be access by using [this_project_url]/api/shorturl/' + shortUrlId)
+        }
+      })
 
       var Url1 = new URL({ shortUrl: shortUrlId, originalUrl: Url })
  
