@@ -1,0 +1,24 @@
+{
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "freeze": true,
+    "immed": true,
+    "indent": 2,
+    "latedef": false,
+    "laxcomma": true,
+    "maxlen": 80,
+    "noarg": true,
+    "noempty": true,
+    "nonbsp": true,
+    "nonew": true,
+    "quotmark": "single",
+    "undef": true,
+    "unused": true,
+    "strict": true,
+
+    "node": true,
+    "globals": {
+        "Promise": true
+    }
+}
