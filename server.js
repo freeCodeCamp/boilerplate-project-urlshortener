@@ -28,7 +28,7 @@ var port = process.env.PORT || 3000;
 //Connect to Mongo Atlas DB
 
 
-
+/*
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
@@ -49,12 +49,19 @@ const assert = require('assert');
   }
 
 })();
+*/
 
+
+mongoose.connect('mongodb://localhost:27017/URLShort', { useNewUrlParser: true }, (err) => {
+  if (!err) { console.log('MongoDB Connection Succeeded.') }
+  else { console.log('Error in DB connection: ' + err) }
+})
 
 
 mongoose.set('useCreateIndex', true);
 
-var Schema = mongoose.Schema;
+//Database Schema
+const Schema = mongoose.Schema;
 
 var urlSchema = new Schema({
   shortUrl: {
@@ -63,7 +70,8 @@ var urlSchema = new Schema({
   originalUrl: String,
 });
 
-var sURL = mongoose.model('sURL', urlSchema);
+//Database Model
+var URL = mongoose.model('URLShort', urlSchema);
 
 app.use(cors());
 
@@ -91,27 +99,29 @@ app.post("/api/shorturl/new", function (req, res, next) {
   console.log(Url.split(/\/{1}/))
   //Taking the whole url spliting between /
   var orgUrl = Url.split(/\/{1}/);
-
+  var shortUrlId = shortUrl();
 
   dns.lookup(orgUrl[2], (err, address, family) => {
-    if (err) {
+    console.log(address)
+    if (err || address === '92.242.140.2') {
       console.log("Error log")
       res.json({ "error": "invalid URL" })
     } else {
       //Add the URL and shortURL in the database
-      const shortUrlId = shortUrl();
-      console.log("shortUrlId: " + shortUrlId)
-      console.log("originalUrl: " + Url)
-      var sURL1 = new sURL({ shortURL: shortUrlId, originalUrl: Url })
-      sURL1.save(function (err, book) {
-        if (err) return console.error(err);
-        console.log("test");
-        console.log(sURL1.shortUrl + " and " + sURL1.oringialURL + " saved to bookstore collection.");
+   
+      console.log("shortUrlId: " + typeof shortUrlId)
+      console.log("originalUrl: " + typeof Url)
 
-      })
+      var Url1 = new URL({ shortUrl: shortUrlId, originalUrl: Url })
+ 
+        Url1.save(Url1, function (err) {
+          if (err) { return console.error(err) }
+          console.log(Url1.shortUrl)
+        })
     }
-
   })
+
+  res.send('The ' + Url + ' can be access by using [this_project_url]/api/shorturl/' + shortUrlId)
 
 
 
