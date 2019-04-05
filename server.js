@@ -86,16 +86,19 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-app.get("/api/:shorturl/", function (req, res) {
-  console.log("shorturl is " + req.params.shorturl)
-  URL.find({ shortUrl: req.params.shorturl }, 'originalUrl shortUrl', function (err, docs) {
-    if (!err) {
-      console.log(docs);
-    } else {
-      res.send('There is no url for ' + req.params.shorturl)
+//Accessing the shorturl in the database and redirecting to the url associated with it
+
+app.get("/number/:sNumber", function (req, res) {
+  console.log("shorturl is " + req.params.sNumber)
+  URL.find({ shortUrl: req.params.sNumber }, 'originalUrl shortUrl', function (err, docs) {
+    console.log(docs[0])
+    if (docs[0]) {
+      res.redirect(docs[0].originalUrl)
     }
   })
 })
+
+
 
 // your first API endpoint... 
 app.post("/api/shorturl/new", function (req, res, next) {
@@ -120,34 +123,37 @@ app.post("/api/shorturl/new", function (req, res, next) {
     } else {
       //Add the URL and shortURL in the database
    
-      console.log("shortUrlId: " + typeof shortUrlId)
-      console.log("originalUrl: " + typeof Url)
+ 
 
       //Search database and find if url is already in system and if so return the results
-      URL.find({ originialUrl: Url }, 'originalUrl shortUrl', function (err, person) {
-        if (!err) {
-          res.send('Theres is already an urlshortener for ' + Url + ' and can be access by using [this_project_url]/api/shorturl/' + shortUrlId)
-        }
+  
+       URL.find({ originalUrl: Url }, 'originalUrl shortUrl', function (err, docs) {
+         if (docs[0]) {
+           res.send('The ' + docs[0].originalUrl + ' is in the database and can be access by using [this_project_url]/api/shorturl/' + docs[0].shortUrl)
+         } else {
+           console.log("url: " + req.body.url)
+           const newSUrl = shortUrl();
+           console.log("short url: " + shortUrl())
+
+           var Url1 = new URL({ shortUrl: newSUrl, originalUrl: req.body.url })
+
+           Url1.save(Url1, function (err) {
+             if (err) { return console.error(err) }
+             console.log(Url1.shortUrl)
+           })
+
+           res.send('The ' + req.body.url + ' can be access by using [this_project_url]/api/shorturl/' + newSUrl)
+         }
+
+
       })
 
-      var Url1 = new URL({ shortUrl: shortUrlId, originalUrl: Url })
+      }
+    })
+
+
+
  
-        Url1.save(Url1, function (err) {
-          if (err) { return console.error(err) }
-          console.log(Url1.shortUrl)
-        })
-    }
-  })
-
-  res.send('The ' + Url + ' can be access by using [this_project_url]/api/shorturl/' + shortUrlId)
-
-
-
-  //db.URLShort.insertOne({
-  // 'url': url,
-  //});  
-
-  //res.json({original_url: req.originalUrl});
 });
 
 app.listen(port, function () {
