@@ -129,7 +129,7 @@ app.post("/api/shorturl/new", function (req, res, next) {
   
        URL.find({ originalUrl: Url }, 'originalUrl shortUrl', function (err, docs) {
          if (docs[0]) {
-           res.send('The ' + docs[0].originalUrl + ' is in the database and can be access by using [this_project_url]/api/shorturl/' + docs[0].shortUrl)
+           res.send('The ' + docs[0].originalUrl + ' is in the database and can be access by using [this_project_url]/number/' + docs[0].shortUrl)
          } else {
            console.log("url: " + req.body.url)
            const newSUrl = shortUrl();
@@ -142,7 +142,7 @@ app.post("/api/shorturl/new", function (req, res, next) {
              console.log(Url1.shortUrl)
            })
 
-           res.send('The ' + req.body.url + ' can be access by using [this_project_url]/api/shorturl/' + newSUrl)
+           res.send('The ' + req.body.url + ' can be access by using [this_project_url]/number/' + newSUrl)
          }
 
 
