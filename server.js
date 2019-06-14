@@ -89,9 +89,7 @@ app.get('/', function (req, res) {
 //Accessing the shorturl in the database and redirecting to the url associated with it
 
 app.get("/number/:sNumber", function (req, res) {
-  console.log("shorturl is " + req.params.sNumber)
   URL.find({ shortUrl: req.params.sNumber }, 'originalUrl shortUrl', function (err, docs) {
-    console.log(docs[0])
     if (docs[0]) {
       res.redirect(docs[0].originalUrl)
     }
@@ -110,15 +108,13 @@ app.post("/api/shorturl/new", function (req, res, next) {
   //Getting the main path and about to remove additional routes
   var Url = req.body.url;
 
-  console.log(Url.split(/\/{1}/))
+
   //Taking the whole url spliting between /
   var orgUrl = Url.split(/\/{1}/);
   var shortUrlId = shortUrl();
 
-  dns.lookup(orgUrl[2], (err, address, family) => {
-    console.log(address)
-    if (err || address === '92.242.140.2') {
-      console.log("Error log")
+  dns.lookup(orgUrl[2], (err, address, family) => { 
+    if (err || address === '92.242.140.2') {     
       res.json({ "error": "invalid URL" })
     } else {
       //Add the URL and shortURL in the database
@@ -130,16 +126,13 @@ app.post("/api/shorturl/new", function (req, res, next) {
        URL.find({ originalUrl: Url }, 'originalUrl shortUrl', function (err, docs) {
          if (docs[0]) {
            res.send('The ' + docs[0].originalUrl + ' is in the database and can be access by using [this_project_url]/number/' + docs[0].shortUrl)
-         } else {
-           console.log("url: " + req.body.url)
-           const newSUrl = shortUrl();
-           console.log("short url: " + shortUrl())
+         } else {          
+           const newSUrl = shortUrl();        
 
            var Url1 = new URL({ shortUrl: newSUrl, originalUrl: req.body.url })
 
            Url1.save(Url1, function (err) {
-             if (err) { return console.error(err) }
-             console.log(Url1.shortUrl)
+             if (err) { return console.error(err) }      
            })
 
            res.send('The ' + req.body.url + ' can be access by using [this_project_url]/number/' + newSUrl)
