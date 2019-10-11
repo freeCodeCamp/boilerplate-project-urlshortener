@@ -10,7 +10,7 @@
 
 #### Creation Example:
 
-POST [project_url]/api/shorturl/new - body (urlencoded) :  url=https://www.google.com
+POST [project_url]/api/shorturl/new - body (urlencoded) :  url=https://www.freecodecamp.org/forum/
 
 #### Usage:
 
