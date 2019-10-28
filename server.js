@@ -29,12 +29,13 @@ autoIncrement.initialize(db);
 
 
 var schema = new mongoose.Schema({
-     originalUrl: String
-    // shortUrl: String
+    originalUrl: String,
+    shortUrl: Number
 });
  
-var urlModel = mongoose.model('Url', schema);
 schema.plugin(autoIncrement.plugin, {model: 'Url', field: 'shortUrl' });
+var urlModel = mongoose.model('Url', schema);
+
 
 
 app.use(cors());
@@ -67,36 +68,65 @@ function lookupAsPromise(domain){
 
 app.post('/api/shorturl/new', async (req, res)=>{
     
-  try{
-      let url = req.body.url;
-      
-      if (!validUrl.isUri(url)){
-        return res.json({"error":"invalid URL"});        
-      }
-    
-      let domain = URL.parse(url).hostname;
-    
-      await lookupAsPromise(domain);
-      console.log('wtf')
-      let urlDoc = await urlModel.find({originalUrl: url});
-      console.log('wrd')
-      if(urlDoc !== null){
-        console.log(urlDoc)
-         return res.json(urlDoc);
-      }
-    
-      let newDoc = new urlModel({originalUrl: url});
-    
-      let savedDoc = await newDoc.save();
-    
-      return res.json(savedDoc);
-    
-  }catch(error){
-    console.log(error);
-     return res.json({"error":"invalid URL"});
-  }
+    try{
 
+        let url = req.body.url;
 
+        if (!validUrl.isUri(url)){
+            return res.json({"error":"invalid URL"});        
+        }
+    
+        let domain = URL.parse(url).hostname;
+
+        await lookupAsPromise(domain);
+
+        let urlDoc = await urlModel.findOne({originalUrl: url}, {});
+
+        if(urlDoc !== null){
+
+            let responseData = {
+                original_url: urlDoc.originalUrl,
+                short_url: urlDoc.shortUrl
+            }
+
+            return res.json(responseData);
+        }
+    
+        let newDoc = new urlModel({originalUrl: url});
+
+        let savedDoc = await newDoc.save();
+
+        let responseData = {
+            original_url: savedDoc.originalUrl,
+            short_url: savedDoc.shortUrl
+        }
+    
+
+        return res.json(responseData);
+    
+    }catch(error){
+        console.log(error);
+        return res.json({"error":"invalid URL"});
+    }
+
+})
+
+app.get('/api/shorturl/:id', async (req,res) =>{
+
+    try{
+
+        let id = req.params.id;
+        let doc = await urlModel.findOne({shortUrl: id}).lean();
+
+        if(doc == null){
+            return res.json({"error":"that url does not exist"});
+        }
+
+        return res.redirect(doc.originalUrl);
+
+    }catch(error){
+        return res.json({"error":"something went wrong"});
+    }
 })
 
 app.use(function (err, req, res, next) {
