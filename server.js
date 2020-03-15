@@ -32,8 +32,9 @@ let createAndSaveUrl = function(urlToBeSaved){
 }
 
 //find a url
-let findURL=function(urlTosearchFor){
-  URL.find({url:urlTosearchFor})
+let findURL= function(urlTosearchFor){
+  const result = URL.findOne({url:urlTosearchFor});
+  return result
 }
 app.use(cors());
 
@@ -61,14 +62,22 @@ app.post('/api/shorturl/new/', (req, res)=>{
       console.log("Valid")
       createAndSaveUrl(submittedURL);
       console.log("Done")
-      let response = findURL(submittedURL);
-      return response
     }else{
       console.log(err)
+      return res.json({"error":"invalid URL"})
     }
   });
+  //still need to find a way to wait for the result
+  let result = URL.findOne({url:submittedURL}).exec();
+  console.log(result);
+  result.then(response=> res.json({result:response}))
+  // let response = findURL(submittedURL);
+  // response.then(err, result){
+
+  // }
+ 
   // I have to look for a way to await the response from mongoose and pass it in to the res.json
-  res.json({"original url":response['url'], "short_url":response['hash']})
+  // res.json({"original url":response['url'], "short_url":response['hash']})
 
   
   
