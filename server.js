@@ -45,44 +45,47 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 //handling post data from the view form
 let urlToShorten;
+let linksArray = [];
+let id=0;
 app.post('/api/shorturl/new/', (req, res)=>{
   //retrieve the submitted url from the form post data through body parser
   let submittedURL = req.body.url;
-  // console.log(submittedURL);
   //Check if it follows the right format of http||https
   if(regTestURL.test(submittedURL)){
     urlToShorten = submittedURL.replace(regTestURL, '')
-    // console.log(`Valid URL ${urlToShorten}`)
   }else{
     return res.json({"error":"invalid URL"})
   }
-  // (regTestURL.test(submittedURL)) ? urlToShorten = submittedURL : res.json({"error":"invalid URL"});
+  
   dns.lookup(urlToShorten, (err, address, family)=>{
     if(err==null){
       console.log("Valid")
-      createAndSaveUrl(submittedURL);
-      console.log("Done")
+      id++;
+      let linkObject={"original_url":submittedURL,"short_url":`${id}`};
+      linksArray.push(linkObject);
+      res.json(linkObject)
+      console.log(linksArray)
     }else{
       console.log(err)
       return res.json({"error":"invalid URL"})
     }
-  });
-  //still need to find a way to wait for the result
-  let result = URL.findOne({url:submittedURL}).exec();
-  console.log(result);
-  result.then(response=> res.json({result:response}))
-  // let response = findURL(submittedURL);
-  // response.then(err, result){
-
-  // }
- 
-  // I have to look for a way to await the response from mongoose and pass it in to the res.json
-  // res.json({"original url":response['url'], "short_url":response['hash']})
-
-  
-  
+  }); 
 })
-
+//when short url is visited
+app.get("/api/shorturl/:id", (req, res)=>{
+  //get the given id from the request
+  let id = req.params.id;
+  console.log(id)
+  //Find it in the array
+  let found=linksArray.find(link =>link.short_url === id);
+  console.log(found)
+  //redirect to the url
+  if(found){
+    res.redirect(found.original_url)
+  }else{
+    res.json({"error":`Url with the short id ${id} not found`})
+  }
+});
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.get('/', function(req, res){
