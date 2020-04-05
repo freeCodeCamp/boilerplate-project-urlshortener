@@ -1,37 +1,87 @@
 'use strict';
 
-var express = require('express');
-var mongo = require('mongodb');
-var mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const dns = require('dns');
 
-var cors = require('cors');
+const { connectToMongoose } = require('./db');
+const Url = require('./model/url');
 
-var app = express();
+const app = express();
+const port = process.env.PORT || 3000;
 
-// Basic Configuration 
-var port = process.env.PORT || 3000;
 
-/** this project needs a db !! **/ 
-// mongoose.connect(process.env.DB_URI);
+connectToMongoose();
 
 app.use(cors());
-
-/** this project needs to parse POST bodies **/
-// you should mount the body-parser here
-
 app.use('/public', express.static(process.cwd() + '/public'));
+app.use(bodyParser.json())
+
 
 app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-  
-// your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get('/api/shorturl/:id', (req, res) => {
+  const short = req.params.id
+  Url.findOne({ short }).exec()
+    .then((url) => {
+      if (url) {
+        return res.writeHead(302, {
+          'Location': url.original
+        })
+      }
+      console.log(`Printing- - - - res:`, res)
+      return res.redirect('/error.html')
+    })
+    .catch((error) => {
+      console.log("error", error)
+      return res.redirect('/index.html')
+    })
+  
+});
+
+app.get('')
+
+app.post('/api/shorturl/new', (req, res) => {
+  dns.lookup(req.body.url, (error, address) => {1
+    if (error) {
+      return res.status(400).json({
+        error: "invalid URL"
+      });
+    }
+
+    Url.estimatedDocumentCount().exec((error, count) => {
+      if (error) {
+        res.status(500).send(error)
+      }
+      const currentCount = count + 1
+      const url = new Url({
+        original: req.body.url,
+        short: currentCount
+      })
+
+      url.save()
+        .then(() => {
+          res.status(200).json({
+            "original_url": url,
+            "short_url": 1
+          });
+        })
+        .catch((error) => {
+          res.status(500).send(error)
+        })
+
+    });
+  });
+});
+
 
 app.listen(port, function () {
-  console.log('Node.js listening ...');
+  console.log(`Node.js listening to port ${port}...`);
 });
