@@ -1,6 +1,6 @@
 {
 	"name": "shorturl",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "API project for freeCodeCamp",
 	"main": "server.js",
 	"scripts": {
@@ -8,13 +8,13 @@
 	},
 	"dependencies": {
 		"express": "^4.17.1",
-		"mongodb": "^3.3.3",
-		"mongoose": "^5.7.7",
+		"mongodb": "^3.5.9",
+		"mongoose": "^5.9.27",
 		"cors": "^2.8.5",
 		"body-parser": "^1.19.0"
 	},
 	"engines": {
-		"node": "10.17.0"
+		"node": "12.18.3"
 	},
 	"repository": {
 		"type": "git",
