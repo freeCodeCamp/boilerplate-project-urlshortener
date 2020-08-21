@@ -1,0 +1,9 @@
+name: Continuous deployment
+on: push
+jobs:
+  install-dep:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: npm install
