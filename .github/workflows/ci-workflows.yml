@@ -1,9 +1,11 @@
 name: Continuous deployment
 on: push
 jobs:
-  install-dep:
+  install-test:
     name: Install dependencies
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
-      run: npm install
+      run: npm install && npm install --dev
+    - name: Test
+      run: npm run test
