@@ -31,7 +31,10 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
-app.listen(port, function () {
+const server = app.listen(port, function () {
   console.log('Node.js listening ...');
 });
+
+module.exports = {
+  app: server
+};

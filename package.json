@@ -4,7 +4,8 @@
 	"description": "API project for freeCodeCamp",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server.js",
+		"test": "jest"
 	},
 	"dependencies": {
 		"express": "^4.17.1",
@@ -25,5 +26,9 @@
 		"hyperdev",
 		"express"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"devDependencies": {
+		"jest": "^26.4.1",
+		"supertest": "^4.0.2"
+	}
 }
