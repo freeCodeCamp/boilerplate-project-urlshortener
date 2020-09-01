@@ -1,7 +1,13 @@
 const supertest = require('supertest');
-const { app } = require('./server');
+// MONGO_URL is provided by @shelf/jest-mongodb
+process.env.DB_URI = process.env.MONGO_URL;
+const { appServer, mongoose } = require('./server');
+const request = supertest(appServer);
 
-const request = supertest(app);
+afterAll(async () => {
+    await mongoose.disconnect();
+    await appServer.close()
+});
 
 describe("GET", () => {
   test("/api/hello", async () => {
@@ -11,5 +17,3 @@ describe("GET", () => {
     expect(response.body.greeting).toBe("hello API");
   });
 });
-
-afterAll(() => app.close());

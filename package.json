@@ -8,11 +8,11 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"mongodb": "^3.5.9",
-		"mongoose": "^5.9.27",
-		"cors": "^2.8.5",
-		"body-parser": "^1.19.0"
+		"mongoose": "^5.10.0"
 	},
 	"engines": {
 		"node": "12.18.3"
@@ -28,7 +28,13 @@
 	],
 	"license": "MIT",
 	"devDependencies": {
+		"@shelf/jest-mongodb": "^1.2.3",
 		"jest": "^26.4.1",
+		"mongodb-memory-server": "^6.6.7",
 		"supertest": "^4.0.2"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"preset": "@shelf/jest-mongodb"
 	}
 }
