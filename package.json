@@ -5,7 +5,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js",
-		"test": "jest"
+		"test": "jest",
+		"pretest": "npx eslint ./"
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
@@ -29,6 +30,8 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@shelf/jest-mongodb": "^1.2.3",
+		"eslint": "^7.8.1",
+		"eslint-plugin-jest": "^23.20.0",
 		"jest": "^26.4.1",
 		"mongodb-memory-server": "^6.6.7",
 		"supertest": "^4.0.2"

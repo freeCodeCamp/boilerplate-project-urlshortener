@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var mongo = require('mongodb');
+// var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
 var cors = require('cors');
