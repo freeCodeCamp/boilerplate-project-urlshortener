@@ -8,7 +8,6 @@
       href="https://cdn.hyperdev.com/us-east-1%3A52a203ff-088b-420f-81be-45bf559d01b1%2Ffavicon.ico"
       type="image/x-icon"
     />
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
     <link href="/public/style.css" rel="stylesheet" type="text/css" />
   </head>
 
@@ -18,9 +17,9 @@
       <h3>User Story:</h3>
       <ol>
         <li>
-          I can POST a URL to <code>[project_url]/api/shorturl/new</code> and I will receive a shortened URL in the JSON
+          I can <code>POST</code> a URL to <code>[project_url]/api/shorturl/new</code> and I will receive a shortened URL in the JSON
           response.<br />
-          Example : <code>{ "original_url": "www.google.com", "short_url": 1 }</code>
+          Example: <code>{ "original_url": "www.google.com", "short_url": 1 }</code>
         </li>
         <li>
           If I pass an invalid URL that doesn't follow the <code>http(s)://www.example.com(/more/routes)</code> format,
@@ -32,7 +31,7 @@
       </ol>
 
       <h3>Short URL Creation</h3>
-      <p>example: <code>POST [project_url]/api/shorturl/new</code> - <code>https://www.google.com</code></p>
+      <p>Example: <code>POST [project_url]/api/shorturl/new</code> - <code>https://www.google.com</code></p>
       <form action="api/shorturl/new" method="POST">
         <label for="url_input">URL to be shortened</label>
         <input id="url_input" type="text" name="url" value="https://www.freecodecamp.org" />
@@ -45,7 +44,7 @@
       <p>https://forum.freecodecamp.org/</p>
     </div>
     <div class="footer">
-      <p>by <a href="https://www.freecodecamp.org">freeCodeCamp</a></p>
+      <p>By <a href="https://www.freecodecamp.org">freeCodeCamp</a></p>
     </div>
   </body>
 </html>

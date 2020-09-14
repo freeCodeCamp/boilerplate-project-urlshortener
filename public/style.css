@@ -1,8 +1,8 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 16px;
   color: #222;
-  background-color: #fafafa;
+  background-color: #fff;
   text-align: center;
   line-height: 1.4em;
 }
@@ -26,15 +26,17 @@ h3 {
   max-width: 700px;
   margin: 15px auto;
 }
+
 code {
   font-family: monospace;
   padding: 2px;
-  color: black;
-  background-color: #fff;
+  background-color: #eeeef0;
 }
+
 ol {
   list-style-position: inside;
 }
+
 ul {
   list-style-type: none;
 }
@@ -42,6 +44,7 @@ ul {
 li {
   margin-bottom: 0.5em;
 }
+
 .user-stories li {
   margin-bottom: 1em;
 }
