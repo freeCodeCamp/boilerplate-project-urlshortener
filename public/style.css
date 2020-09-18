@@ -7,7 +7,7 @@ body {
   line-height: 1.4em;
 }
 
-.container {
+main {
   padding: 0;
   margin-top: 40px;
 }
@@ -16,7 +16,7 @@ h3 {
   margin-top: 30px;
 }
 
-.footer {
+footer {
   margin-top: 40px;
 }
 
@@ -54,8 +54,6 @@ a {
 }
 
 form {
-  border: solid 1px black;
-  border-radius: 5px;
   margin: 10px auto;
   padding: 20px;
   max-width: 600px;
