@@ -28,12 +28,6 @@ ol {
 }
 
 ul {
-  list-style-type: none;
-}
-
-li {
-  margin-bottom: 0.5em;
-}
 
 .user-stories li {
   margin-bottom: 1em;
