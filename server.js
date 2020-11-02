@@ -10,7 +10,8 @@ const express = require('express'),
 const port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/ 
-// mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.MONGOLAB_URI, { useMongoClient: true });
+
 
 app.use(cors());
 
