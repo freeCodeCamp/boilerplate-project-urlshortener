@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SHORTURL Microservice</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    </head>
+    <body class="d-flex p-2 flex-column align-items-center">
+        <p class="font-weight-bold">URL Shortener</p>
+        <form action="api/shorturl/new" method="post" class="d-flex flex-row">
+            <input type="text" id="url_input" name="url" placeholder="URL here" />
+            <button type="submit" class="border-0 bg-info">click</button>
+        </form>
+    </body>
+</html>
