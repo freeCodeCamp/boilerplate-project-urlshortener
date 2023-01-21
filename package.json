@@ -8,13 +8,22 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.18.2"
   },
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jamie2345/boilerplate-project-urlshortener.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/Jamie2345/boilerplate-project-urlshortener/issues"
+  },
+  "homepage": "https://github.com/Jamie2345/boilerplate-project-urlshortener#readme"
 }
