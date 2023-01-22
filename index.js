@@ -34,9 +34,13 @@ app.get('/api/hello', function(req, res) {
 
 
 // the keys in this are the original urls and the values are the shortened urls
-const urlShortenedKeys = new Map();
+const urlShortenedKeys = new Map([
+  ["https://github.com/Jamie2345", 1]
+]);
 // the keys in this are the shortened urls and the values are the original urls
-const shortenedKeysUrl = new Map();
+const shortenedKeysUrl = new Map([
+  [1, "https://github.com/Jamie2345"]
+]);
 
 
 app.post('/api/shorturl', (req, res) => {
