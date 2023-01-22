@@ -84,13 +84,6 @@ form {
   justify-content: center;
 }
 
-form .inputBox {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: center;
-}
-
 legend {
   font-size: 20px;
   font-family: "poppins", Arial, Helvetica, sans-serif;
@@ -112,7 +105,48 @@ input {
 }
 
 input[type='text'] {
-  width: 220px;
+  border: 1px solid rgb(53, 20, 102);
+  outline: none;
+  width: 60%;
+  padding: 10px;
+  background-color: rgba(53, 20, 102, 0.9);
+  border-radius: 8px;
+  color: #f2f2f2;
+}
+
+input[type='text']::placeholder {
+  color: #D6D5CB;
+}
+
+input[type='submit'] {
+  background-color: #5927E5;
+  border: 1px solid rgba(53, 20, 102, 0.9);
+  color:rgb(225, 234, 238);
+  font-family: "poppins", Arial, Helvetica, sans-serif;
+  border-radius: 10px;
+  outline: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.inputBox {
+  background-color: rgba(53, 20, 102, 0.9);
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #D6D5CB;
+}
+
+.inputBox label {
+  font-size: 16px;
+  font-family: "poppins" Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  color: #fff;
 }
 
 

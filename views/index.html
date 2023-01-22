@@ -29,15 +29,13 @@
           </div>
         </section>
         <section id="post_url_section">
-          <fieldset>
-            <legend>Post Url</legend>
-            <form action="api/shorturl" method="POST">
-              <div class="inputBox">
-                <input id="url_input" type="text" name="url" placeholder="https://www.freecodecamp.org/" />
-                <input type="submit" value="POST URL" />
-              </div>
-            </form>
-          </fieldset>
+          <form action="api/shorturl" method="POST">
+            <div class="inputBox">
+              <label for="url_input">URL:</label>
+              <input id="url_input" type="text" name="url" placeholder="https://www.freecodecamp.org/" />
+              <input type="submit" value="Post URL" />
+            </div>
+          </form>
         </section>
         <section id="get_url_section">
         </section>
