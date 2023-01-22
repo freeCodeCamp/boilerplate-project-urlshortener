@@ -3,6 +3,9 @@
 <html>
   <head>
     <title>URL Shortener Microservice | freeCodeCamp.org</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link
       rel="icon"
       type="image/png"
@@ -10,23 +13,35 @@
     />
     <link href="/public/style.css" rel="stylesheet" type="text/css" />
   </head>
-
   <body>
-    <h1>URL Shortener Microservice</h1>
-    <main>
-      <section>
-        <form action="api/shorturl" method="POST">
+    <div class="full-page-wrapper">
+
+      <header id="page-header">
+        <h1>URL Shortener Microservice</h1>
+      </header>
+      <main>
+        <section id="examples_section">
+          <div class="examples-container">
+            <h2>Short URL Creation</h2>
+            <p>
+              <code>Example: POST [project_url]/api/shorturl - https://www.google.com</code>
+            </p>
+          </div>
+        </section>
+        <section id="post_url_section">
           <fieldset>
-            <legend>URL Shortener</legend>
-            <label for="url_input">URL:</label>
-            <input id="url_input" type="text" name="url" placeholder="https://www.freecodecamp.org/" />
-            <input type="submit" value="POST URL" />
+            <legend>Post Url</legend>
+            <form action="api/shorturl" method="POST">
+              <div class="inputBox">
+                <input id="url_input" type="text" name="url" placeholder="https://www.freecodecamp.org/" />
+                <input type="submit" value="POST URL" />
+              </div>
+            </form>
           </fieldset>
-        </form>
-      </section>
-    </main>
-    <footer>
-      <p>By <a href="https://www.freecodecamp.org/">freeCodeCamp</a></p>
-    </footer>
+        </section>
+        <section id="get_url_section">
+        </section>
+      </main>
+    </div>
   </body>
 </html>
