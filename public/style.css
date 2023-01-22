@@ -109,13 +109,9 @@ input[type='text'] {
   outline: none;
   width: 60%;
   padding: 10px;
-  background-color: rgba(53, 20, 102, 0.9);
+  background-color: white;
   border-radius: 8px;
-  color: #f2f2f2;
-}
-
-input[type='text']::placeholder {
-  color: #D6D5CB;
+  color: black;
 }
 
 input[type='submit'] {
