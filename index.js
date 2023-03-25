@@ -25,19 +25,15 @@ app.get("/", function (req, res) {
 const urls = require("./data");
 const dns = require("dns");
 const { URL } = require("url");
-const validUrl = require("valid-url");
 
-function isValidUrl(urlToValidate) {
+function isValidUrl(string) {
   try {
-    const url = new URL(urlToValidate);
-    const valid = dns.lookup(url.hostname, async (error) => {
-      if (error) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-    return valid;
+    const url = new URL(string);
+    if (url.protocol != "http:" && url.protocol != "https:") {
+      return false;
+    } else {
+      return true;
+    }
   } catch (error) {
     return false;
   }
@@ -45,43 +41,22 @@ function isValidUrl(urlToValidate) {
 
 app.post("/api/shorturl", (req, res) => {
   const { url: original_url } = req.body;
-
-  // if (isValidUrl(original_url) === false) {
-  //   return res.status(400).json({
-  //     error: "Invalid URL",
-  //   });
-  // } else {
-  //   const short_url = (urls.length + 1).toString();
-  //   const newLookup = { original_url, short_url };
-  //   urls.push(newLookup);
-  //   return res.status(201).json({ success: true, data: newLookup });
-  // }
-
-  try {
-    const url = new URL(original_url);
-    dns.lookup(url.hostname, async (error) => {
-      if (error) {
-        return res.json({
-          error: "invalid url",
-        });
-      } else {
-        const lookup = urls.find(
-          (element) => element["original_url"] === original_url
-        );
-        if (lookup) {
-          return res.status(201).send(lookup);
-        } else {
-          const short_url = (urls.length + 1).toString();
-          const newLookup = { original_url, short_url };
-          urls.push(newLookup);
-          return res.status(201).send(newLookup);
-        }
-      }
-    });
-  } catch (error) {
+  if (!isValidUrl(original_url)) {
     return res.json({
       error: "invalid url",
     });
+  } else {
+    const lookup = urls.find(
+      (element) => element["original_url"] === original_url
+    );
+    if (lookup) {
+      return res.status(201).send(lookup);
+    } else {
+      const short_url = (urls.length + 1).toString();
+      const newLookup = { original_url, short_url };
+      urls.push(newLookup);
+      return res.status(201).send(newLookup);
+    }
   }
 });
 
