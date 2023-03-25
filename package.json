@@ -12,7 +12,8 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "valid-url": "^1.0.9"
+    "mongoose": "^7.0.3",
+    "uuid": "^9.0.0"
   },
   "license": "MIT",
   "devDependencies": {

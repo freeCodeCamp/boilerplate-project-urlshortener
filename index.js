@@ -22,9 +22,26 @@ app.get("/", function (req, res) {
 /* ***************************
  * project-solution-code *****
  *****************************/
-const urls = require("./data");
-const dns = require("dns");
+
 const { URL } = require("url");
+const { v4: uuidv4 } = require("uuid");
+
+const mongoose = require("mongoose");
+
+// Define Schema
+const UrlSchema = new mongoose.Schema({
+  original_url: {
+    type: String,
+    required: true,
+  },
+  short_url: {
+    type: String,
+    required: true,
+  },
+});
+
+// Compile model from schema
+const Url = mongoose.model("Url", UrlSchema);
 
 function isValidUrl(string) {
   try {
@@ -39,37 +56,51 @@ function isValidUrl(string) {
   }
 }
 
-app.post("/api/shorturl", (req, res) => {
-  const { url: original_url } = req.body;
-  if (!isValidUrl(original_url)) {
+app.post("/api/shorturl", async (req, res) => {
+  if (!isValidUrl(req.body.url)) {
     return res.json({
       error: "invalid url",
     });
   } else {
-    const lookup = urls.find(
-      (element) => element["original_url"] === original_url
+    const url = await Url.findOne(
+      { original_url: req.body.url },
+      "-_id original_url short_url"
     );
-    if (lookup) {
-      return res.status(201).send(lookup);
-    } else {
-      const short_url = (urls.length + 1).toString();
-      const newLookup = { original_url, short_url };
-      urls.push(newLookup);
-      return res.status(201).send(newLookup);
+    if (!url) {
+      const short_url = uuidv4();
+      let newUrl = await Url.create({
+        original_url: req.body.url,
+        short_url: short_url,
+      });
+      return res.status(201).send({
+        original_url: newUrl.original_url,
+        short_url: newUrl.short_url,
+      });
     }
+    return res.status(201).send(url);
   }
 });
 
-app.get("/api/shorturl/:url", (req, res) => {
-  try {
-    const { url } = req.params;
-    const lookup = urls.find((element) => element["short_url"] === url);
-    const original_url = lookup["original_url"];
-    return res.redirect(original_url);
-  } catch (error) {}
-  return res.status(404).json({ msg: "Not found." });
+app.get("/api/shorturl/:url", async (req, res) => {
+  const url = await Url.findOne({ short_url: req.params.url });
+  if (!url) {
+    return res.status(404).json({ msg: "Not found." });
+  }
+  return res.redirect(url["original_url"]);
 });
 
-app.listen(port, function () {
-  console.log(`Listening on port ${port}`);
-});
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    app.listen(port, function () {
+      console.log(`Listening on port ${port}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();
