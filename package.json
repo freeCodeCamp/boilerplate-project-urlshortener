@@ -13,10 +13,14 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^7.0.3",
+    "node": "^19.8.1",
     "uuid": "^9.0.0"
   },
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=14 <15"
   }
 }
