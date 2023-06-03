@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const validator = require("validator");
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
@@ -26,11 +27,21 @@ let urlDatabase = {};
 
 app.post("/api/shorturl", function (req, res) {
   const originalUrl = req.body.url;
+ 
+  // check if valid url format
+  const httpRegex = /^(http|https)(:\/\/)/;
+  if (!httpRegex.test(originalUrl)) {
+    return res.json({ error: "invalid url" });
+  }
+  // check valid protocol
+  if (!validator.isURL(originalUrl, { require_protocol: true, require_tld: true })) {
+    res.status(400).send({ error: "invalid url" });
+    return;
+  }
   const urlObj = url.parse(originalUrl);
-
   dns.lookup(urlObj.hostname, (err) => {
     if (err) {
-      res.status(400).send({ error: "Invalid URL" });
+      res.status(400).send({ error: "invalid url" });
     } else {
       const shortUrl = ++id;
       urlDatabase[shortUrl] = originalUrl;
@@ -50,7 +61,7 @@ app.get("/api/shorturl/:short_url", function (req, res) {
   if (urlDatabase[shortLink]) {
     res.redirect(urlDatabase[shortLink]);
   } else {
-    res.status(404).send({ error: "URL not found!" });
+    res.status(404).send({ error: "invalid url" });
   }
 });
 
