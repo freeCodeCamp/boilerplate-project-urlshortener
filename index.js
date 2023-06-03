@@ -27,14 +27,16 @@ let urlDatabase = {};
 
 app.post("/api/shorturl", function (req, res) {
   const originalUrl = req.body.url;
- 
+
   // check if valid url format
   const httpRegex = /^(http|https)(:\/\/)/;
   if (!httpRegex.test(originalUrl)) {
-    return res.json({ error: "invalid url" });
+    return res.status(400).json({ error: "invalid url" });
   }
   // check valid protocol
-  if (!validator.isURL(originalUrl, { require_protocol: true, require_tld: true })) {
+  if (
+    !validator.isURL(originalUrl, { require_protocol: true, require_tld: true })
+  ) {
     res.status(400).send({ error: "invalid url" });
     return;
   }
