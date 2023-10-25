@@ -27,7 +27,6 @@ let Url = mongoose.model("Url", urlSchema);
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
-
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(`${process.cwd()}/public`));
