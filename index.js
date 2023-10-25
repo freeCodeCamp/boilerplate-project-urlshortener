@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 var validator = require("validator");
 
@@ -26,12 +25,11 @@ var urlSchema = new mongoose.Schema({
 });
 let Url = mongoose.model("Url", urlSchema);
 
-app.use("/", bodyParser.urlencoded({ extended: false }));
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
 app.use(cors());
-
+app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(`${process.cwd()}/public`));
 
 app.get("/", function (req, res) {
