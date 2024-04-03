@@ -4,17 +4,20 @@
   "description": "API project for freeCodeCamp",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
+    "@prisma/client": "^5.12.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "prisma": "^5.11.0",
+    "sqlite3": "^5.1.7"
   },
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.22"
   }
 }
