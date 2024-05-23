@@ -29,8 +29,6 @@ const randomNumber = () => {
 	return Math.floor(Math.random() * 100)
 }
 
-
-
 app.post('/api/shorturl', async (req, res) => {
 	const { url } = req.body
 	let createRows = null
