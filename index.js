@@ -32,10 +32,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/views', express.static(`${process.cwd()}/views`));
-
 app.get('/', function(req, res) {
-  res.sendFile(process.cwd() + '/views/index.html');
+  res.send("helle api")
 });
 
 // Your first API endpoint
