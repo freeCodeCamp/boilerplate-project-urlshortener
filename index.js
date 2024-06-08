@@ -3,13 +3,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dns = require('dns');
-const { error } = require('console');
 const urlModule = require('url');
-const app = express();
+const app = express()
 
-mongoose.connect(process.env.MONGO_URI, {
+// Debug: Check if MONGO_URI is loaded
+console.log("MONGO_URI:", process.env.Mango);
+
+mongoose.connect(process.env.Mango, {
   useNewUrlParser: true,
   useUnifiedTopology: true
+}).then(() => {
+  console.log('MongoDB connected');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
 });
 
 let urlSchema = new mongoose.Schema({
@@ -26,7 +32,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/public', express.static(`${process.cwd()}/public`));
+app.use('/views', express.static(`${process.cwd()}/views`));
 
 app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
@@ -34,32 +40,32 @@ app.get('/', function(req, res) {
 
 // Your first API endpoint
 app.post('/api/shorturl', function(req, res) {
-  console.log(typeof(req.body.url))
+  console.log(typeof(req.body.url));
   let url = req.body.url;
-  dns.lookup( urlModule.parse(url).hostname , async( err , address ) => {
-    if(!address) {
+  dns.lookup(urlModule.parse(url).hostname , async (err, address) => {
+    if (!address) {
       res.json({ error: 'invalid url' });
     } else {
-      const urlCount = await urls.countDocuments({})
+      const urlCount = await urls.countDocuments({});
       const urlDoc = {
         original_url: url,
         short_url: urlCount
-      }
+      };
 
-      const result = await urls.create(urlDoc)
+      const result = await urls.create(urlDoc);
       console.log(result);
-      res.json({ original_url: url, short_url: urlCount })
+      res.json({ original_url: url, short_url: urlCount });
     }
   });
 });
 
-app.get('/api/shorturl/:short_url', async (req,res)=>{
+app.get('/api/shorturl/:short_url', async (req, res) => {
   const shorturl = req.params.short_url;
-  const urlDoc = await urls.findOne({short_url: +shorturl})
-  if(urlDoc){
-    res.redirect(urlDoc.original_url)
-  }else{
-    res.json({Error: 'No URL found for the given short URL'})
+  const urlDoc = await urls.findOne({ short_url: +shorturl });
+  if (urlDoc) {
+    res.redirect(urlDoc.original_url);
+  } else {
+    res.json({ error: 'No URL found for the given short URL' });
   }
 });
 
