@@ -13,9 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 3000;
 
-// In-memory storage
-const shortUrlMap = new Map(); // "1" -> "https://example.com"
-const originalUrlMap = new Map(); // "https://example.com" -> 1
+const shortUrlMap = new Map();
+const originalUrlMap = new Map();
 let counter = 1;
 
 app.get('/', (req, res) => {
@@ -76,8 +75,10 @@ app.post('/api/shorturl', (req, res) => {
       });
     }
 
-  const shortId = counter++;
-shortUrlMap.set(shortId, submittedUrl);
+    const shortId = counter++;
+    shortUrlMap.set(shortId.toString(), submittedUrl);
+    originalUrlMap.set(submittedUrl, shortId);
+    
     return res.json({
       original_url: submittedUrl,
       short_url: shortId
@@ -86,7 +87,7 @@ shortUrlMap.set(shortId, submittedUrl);
 });
 
 app.get('/api/shorturl/:short_url', (req, res) => {
-  const shortId = parseInt(req.params.short_url);
+  const shortId = req.params.short_url;
 
   const originalUrl = shortUrlMap.get(shortId);
 
